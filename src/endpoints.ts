@@ -166,8 +166,12 @@ export const getTaskRequest = async (data: GetTaskParams): Promise<Task> =>
 
 export const updateTaskRequest = async (
     data: UpdateTaskParams,
-): Promise<Task> =>
-    api<Task>({
+): Promise<Task> => {
+    if (!data.body.deadline) {
+        data.body.deadline = null;
+    }
+
+    return api<Task>({
         method: 'PUT',
         url: `/tasks/${data.id}`,
         body: JSON.stringify(data.body),
@@ -178,6 +182,7 @@ export const updateTaskRequest = async (
             ? new Date(`${response.deadline}Z`)
             : undefined,
     }));
+};
 
 export const updateTasksParentRequest = async (
     data: UpdateTasksParentParams,

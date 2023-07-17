@@ -186,18 +186,12 @@ export const updateTaskRequest = async (
 
 export const updateTasksParentRequest = async (
     data: UpdateTasksParentParams,
-): Promise<Task[]> =>
-    api<Task[]>({
+): Promise<void> =>
+    api<void>({
         method: 'PUT',
         url: `/tasks/parent/${data.new_parent_id}`,
         body: JSON.stringify(data.body),
-    }).then((response) =>
-        response.map((task) => ({
-            ...task,
-            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-            deadline: task.deadline ? new Date(`${task.deadline}Z`) : undefined,
-        })),
-    );
+    });
 
 export const deleteTasksRequest = async (
     data: DeleteTasksParams,
